@@ -4,22 +4,38 @@ import { useEffect, useState } from "react";
 import { heroVideo, smallHeroVideo } from "../utlis";
 
 export default function Hero() {
+  const isMobile = window.innerWidth < 768;
+
   const [videoSrc, setVideoSrc] = useState(
-    window.innerWidth < 768 ? smallHeroVideo : heroVideo
+    isMobile ? smallHeroVideo : heroVideo
   );
 
   const handleVideoSrcSet = () => {
     if (window.innerWidth > 768) {
-      setVideoSrc(smallHeroVideo);
-    } else {
       setVideoSrc(heroVideo);
+    } else {
+      setVideoSrc(smallHeroVideo);
     }
   };
 
   useEffect(() => {
-    window.addEventListener("resize", handleVideoSrcSet);
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+
+    // دالة تحديث الـ State عند عبور الـ Breakpoint
+    const handleMediaQueryChange = (e) => {
+      if (e.matches) {
+        setVideoSrc(smallHeroVideo);
+      } else {
+        setVideoSrc(heroVideo);
+      }
+    };
+
+    handleVideoSrcSet();
+
+    mediaQuery.addEventListener("change", handleMediaQueryChange);
+
     return () => {
-      window.removeEventListener("resize", handleVideoSrcSet);
+      mediaQuery.removeEventListener("change", handleMediaQueryChange);
     };
   }, []);
 
@@ -34,6 +50,7 @@ export default function Hero() {
       y: -50,
     });
   }, []);
+
   return (
     <section className="w-full nav-height bg-black relative">
       <div className="h-5/6 w-full flex-center flex-col">
