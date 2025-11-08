@@ -1,7 +1,7 @@
 # Apple Website — Learning Project
 
 A polished, experimental front-end built while learning GSAP and three.js. This project uses React + Vite, Tailwind CSS and small custom 3D/animation components to explore interactive UI patterns, 3D model viewing, and performant animations.
-
+![preview](./image.jpg)
 ## Why this project
 
 I built this to learn and practice:
